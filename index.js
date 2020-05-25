@@ -25,7 +25,7 @@ app.get('/send', (req, res) => {
       subject: `${email} - ${subject}`, // Subject line
       text: msg // Plain text body
   }
-  transport.sendMail(message).then((info) => {
+  return transport.sendMail(message).then((info) => {
     res.status(200).send('email sent')
   }).catch((error) => {
     res.status(500).send('email failed')
