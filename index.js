@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const port = 4000
 
-app.get('/send', (req, res) => {
+app.get('/', (req, res) => {
   const email = req.query.email
   const subject = req.query.subject
   const msg = req.query.msg
@@ -22,9 +22,9 @@ app.get('/send', (req, res) => {
       text: msg // Plain text body
   }
   transport.sendMail(message).then((info) => {
-    res.status(200).send('enail sent')
+    res.status(200).send('email sent')
   }).catch((error) => {
-    res.status(500).send('enail sent')
+    res.status(500).send('email failed')
   })
 })
 
