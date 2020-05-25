@@ -4,6 +4,10 @@ const app = express()
 const port = 4000
 
 app.get('/', (req, res) => {
+  res.send('Veva email')
+})
+
+app.get('/send', (req, res) => {
   const email = req.query.email
   const subject = req.query.subject
   const msg = req.query.msg
