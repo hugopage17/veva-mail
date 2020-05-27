@@ -1,34 +1,32 @@
 let nodemailer = require('nodemailer')
 const express = require('express')
+const bodyParser = require('body-parser');
 const app = express()
+app.use(bodyParser.json());
 const port = 4000
 
-app.get('/', (req, res) => {
-  res.send('Veva email')
-})
-
-app.get('/send', (req, res) => {
-  const email = req.query.email
-  const subject = req.query.subject
-  const msg = req.query.msg
+app.post('/send', (req, res) => {
+  console.log(req.body);
+  const email = req.body.email
+  const subject = req.body.subject
+  const msg = req.body.msg
   let transport = nodemailer.createTransport({
-      host: 'email-smtp.us-east-1.amazonaws.com',
-      port: 25,
+      host: 'smtp.gmail.com',
           auth: {
-              user: 'AKIAYQSGT2PEUP2CPL4Z',
-              pass: 'BKRDCaEWFVDmf1gTsoedKn+PAFcdDuQdWhJFiA58fZeE'
+              user: 'vevadevmail@gmail.com',
+              pass: 'vevaaws!234'
           }
   });
   const message = {
-      from: 'hpage@vevadev.co.nz', // Sender address
-      to: 'contact@vevadev.co.nz',         // List of recipients
-      subject: `${email} - ${subject}`, // Subject line
-      text: msg // Plain text body
+      from: email,
+      to: 'contact@vevadev.co.nz',
+      subject: `${email} - ${subject}`,
+      text: msg
   }
-  return transport.sendMail(message).then((info) => {
+  transport.sendMail(message).then((info) => {
     res.status(200).send('email sent')
   }).catch((error) => {
-    res.status(500).send('email failed')
+    res.status(500).send(error)
   })
 })
 
